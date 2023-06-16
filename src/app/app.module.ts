@@ -7,6 +7,8 @@ import { FooterComponent } from './footer/component/footer.component';
 import { ClientComponent } from './client/component/client.component';
 import { ClientService } from './client/service/client.service';
 import { RouterModule,Routes } from '@angular/router';
+import {HttpClientModule} from '@angular/common/http';
+import { RouterLinkActive } from '@angular/router';
 
 const routes : Routes = [
   // {path: '', redirectTo: '/clients', pathMatch: 'full'} THIS IS EXAMPLE TO REDIRECT
@@ -22,6 +24,9 @@ const routes : Routes = [
   ],
   imports: [
     BrowserModule,
+    // Import http module to consume api rest
+    HttpClientModule,
+    RouterLinkActive,
     RouterModule.forRoot(routes)
   ],
   /**
