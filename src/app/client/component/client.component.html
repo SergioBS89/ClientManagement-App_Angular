@@ -2,6 +2,9 @@
   <div class="card border-info mb-3">
     <div class="card-header text-info">
       <h3>Clients</h3>
+      <div class="my-2 text-left">
+        <button class="btn btn-rounded btn-primary" [routerLink]="['/clients/create']">Create</button>
+      </div>
     <div class="card-body text-dark">
       <h5 class="card-title">List of clients</h5>
       <table class="table table-bordered table-striped">
@@ -11,17 +14,20 @@
           <th>Last name</th>
           <th>Email</th>
           <th>Created at</th>
+          <th>Update</th>
+          <th>Delete</th>
         </thead>
         <tbody>
           <tr *ngFor="let item of clientList">
             <td>{{item.id}}</td>
             <td>{{item.name}}</td>
-            <td>{{item.last_name}}</td>
+            <td>{{item.lastname}}</td>
             <td>{{item.email}}</td>
             <td>{{item.createAt}}</td>
+            <td><button class="btn btn-warning" [routerLink]="['/clients/create', item.id]">Update</button></td>
+            <td><button class="btn btn-danger" (click)="delete(item)">Delete</button></td>
           </tr>
         </tbody>
-
       </table>
     </div>
   </div>

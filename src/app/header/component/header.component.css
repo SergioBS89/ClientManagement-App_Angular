@@ -1,7 +1,7 @@
 .activo{
     color: rgb(167, 98, 66);
 }
-/* a:focus{
-    background-color: rgba(252, 252, 252, 0.055);
-    border-radius: 10%;
-} */
+
+a{
+    font-size: large;
+}
