@@ -4,74 +4,86 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClientService {
-  constructor(private http: HttpClient, private router : Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
   /**
    * Enpoint get list of clients
    */
   private endpoint = 'http://localhost:8080/api'
 
-  private httpHeaders = new HttpHeaders({'Content-Type' : 'application/json'})
+  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
 
 
-  getClients(): Observable<Client[]> {
+  getClients(page : number): Observable<any> {
     /* There are two ways to get an observable from the api:
     Option 1:                                                          
     return this.http.get<Client[]>(this.findAllEnpoint)
     Option 2:                                             */
     return this.http
-      .get(this.endpoint)
-      .pipe(map((response) => response as Client[]));
+      .get(this.endpoint + '/pages/' + page)
+      .pipe(
+        map((response : any) => {
+          /**
+           * Way to set some values dinamically, pagination
+           */
+          (response.content as Client[]).map(client => {
+            client.name = client.name.toUpperCase()
+            client.createAt = formatDate(client.createAt, 'dd/MM/yyyy', 'en-US')
+            return client
+          })
+          return response
+        }));
   }
 
-  createClient(client: Client) : Observable<Client>{
-    return this.http.post<Client>(this.endpoint, client, {headers : this.httpHeaders}).pipe(
-      catchError(e=> {
-        if(e.error.errors){
-          return throwError( () => e );
+  createClient(client: Client): Observable<Client> {
+    return this.http.post<Client>(this.endpoint, client, { headers: this.httpHeaders }).pipe(
+      catchError(e => {
+        if (e.error.errors) {
+          return throwError(() => e);
         }
         console.log(e.error.message)
         Swal.fire(e.error.message, e.error.error, 'error');
-        return throwError( () => e );
+        return throwError(() => e);
       })
     )
   }
 
-  getClientById(id) : Observable<Client>{
+  getClientById(id): Observable<Client> {
     return this.http.get<Client>(`${this.endpoint}/${id}`).pipe(
-      catchError(e=> {
+      catchError(e => {
         this.router.navigate(['/clients'])
         console.log(e.error.message)
         Swal.fire(e.error.message, e.error.error, 'error');
-        return throwError( () => e );
+        return throwError(() => e);
       })
     )
   }
 
-  updateClient(client: Client) : Observable<Client>{
-    return this.http.put<Client>(`${this.endpoint}/${client.id}`, client, {headers: this.httpHeaders}).pipe(
-      catchError(e=> {
-        if(e.error.errors != null){
-          return throwError( () => e );
+  updateClient(client: Client): Observable<Client> {
+    return this.http.put<Client>(`${this.endpoint}/${client.id}`, client, { headers: this.httpHeaders }).pipe(
+      catchError(e => {
+        if (e.error.errors != null) {
+          return throwError(() => e);
         }
         Swal.fire(e.error.message, e.error.error, 'error');
-        return throwError( () => e );
+        return throwError(() => e);
       })
     )
   }
 
-  delete(id:number) : Observable<Client>{
-    return this.http.delete<Client>(`${this.endpoint}/${id}`, {headers: this.httpHeaders}).pipe(
-      catchError(e=> {
+  delete(id: number): Observable<Client> {
+    return this.http.delete<Client>(`${this.endpoint}/${id}`, { headers: this.httpHeaders }).pipe(
+      catchError(e => {
         this.router.navigate(['/clients'])
         console.log(e.error.message)
         Swal.fire(e.error.message, e.error.error, 'error');
-        return throwError( () => e );
+        return throwError(() => e);
       })
     )
   }

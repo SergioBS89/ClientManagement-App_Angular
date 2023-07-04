@@ -10,11 +10,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterLinkActive } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FormComponent } from './form/component/form.component';
+import { PaginationComponent } from './pagination/component/pagination.component';
 
 const routes: Routes = [
   // {path: '', redirectTo: '/', pathMatch: 'full'} THIS IS EXAMPLE TO REDIRECT
   // {path: '', component: AppComponent},
   { path: 'clients', component: ClientComponent },
+  { path: 'clients/pages/:page', component: ClientComponent },
   { path: 'clients/create', component: FormComponent },
   { path: 'clients/create/:id', component: FormComponent }
 ];
@@ -26,6 +28,7 @@ const routes: Routes = [
     FooterComponent,
     ClientComponent,
     FormComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,

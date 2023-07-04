@@ -32,6 +32,8 @@
           </tr>
         </tbody>
       </table>
+      <!-- Important to ask if paginator has been inject (asinchronous comunication) -->
+      <app-pagination *ngIf="paginator" [paginator] = "paginator"></app-pagination>
     </div>
   </div>
   </div>

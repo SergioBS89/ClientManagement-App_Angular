@@ -14,15 +14,28 @@ export class ClientComponent implements OnInit {
     private clientService: ClientService,
     private service: ClientService,
     private activeRoute: ActivatedRoute
-  ) {}
+  ) { }
 
   clientList: Client[];
   client: Client = new Client();
+  paginator:any
 
   ngOnInit(): void {
-    this.clientService
-      .getClients()
-      .subscribe((client) => (this.clientList = client));
+    /**
+     * Pagination 
+     */
+
+    this.activeRoute.paramMap.subscribe(
+      params => {
+        let page: number = +params.get('page')
+        !page ? 0 : page;
+        this.clientService
+          .getClients(page)
+          .subscribe((response) =>{
+            this.clientList = response.content as Client[];
+            this.paginator = response
+           } );          
+      })
   }
 
   delete(client: Client) {
