@@ -18,6 +18,7 @@ export class FormComponent {
 
   client: Client = new Client();
   formTitle: String = 'Creating client';
+  listErrors : string[] = []
 
   ngOnInit() {
     this.loadClient();
@@ -32,7 +33,12 @@ export class FormComponent {
         `Client ${this.client.name} created sucessfully`,
         'success'
       );
-    });
+    },
+    err => {
+      this.listErrors = err.error.errors as string[]
+    }
+    
+    );
   }
 
   loadClient() {
@@ -54,6 +60,9 @@ export class FormComponent {
         `Client ${this.client.name} has been updated`,
         'success'
       );
+    },
+    err => {
+      this.listErrors = err.error.errors as string[]
     });
   }
 }

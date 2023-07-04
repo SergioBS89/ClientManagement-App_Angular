@@ -7,7 +7,10 @@
       </div>
     <div class="card-body text-dark">
       <h5 class="card-title">List of clients</h5>
-      <table class="table table-bordered table-striped">
+      <div  *ngIf="clientList?.length == 0" class="alert alert-info">
+        There is no clients
+     </div>
+      <table class="table table-bordered table-striped" *ngIf="clientList?.length > 0">
         <thead>
           <th>Id</th>
           <th>Name</th>

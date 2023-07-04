@@ -1,3 +1,12 @@
+
+<!-- DISPLAY VALIDATION NOTIFICATIONS -->
+<div class="container ">
+    <ul class="alert alert-danger" *ngIf="listErrors?.length > 0">
+        <li style="margin-left: 20px;" *ngFor="let error of listErrors">
+            {{error}}
+        </li>
+    </ul>
+</div>
 <div class="fixed container">
     <div class="row">
         <div class="card  text-white col-xl-6 col-md-9 col-sm-12" style="margin-top: 100px; padding: 0;">
@@ -14,7 +23,8 @@
                     <div class="form-group row">
                         <label class="col-form-label col-sm-2">Last name:</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="client.lastname" name="lastname">
+                            <input type="text" class="form-control" [(ngModel)]="client.lastname" name="lastname"
+                                required>
                         </div>
                     </div>
                     <br>
@@ -27,8 +37,8 @@
                     <br>
                     <div class="form-group row">
                         <div class="col-sm-9">
-                            <!-- <button class="btn btn-primary" role="button" (click)="hideComponent()">Create</button> -->
-                            <button class="btn btn-primary" role="button" (click)="create()" *ngIf="!client.id else updateButton">Create</button>
+                            <button class="btn btn-primary" role="button" (click)="create()"
+                                *ngIf="!client.id else updateButton">Create</button>
                             <ng-template #updateButton>
                                 <button class="btn btn-primary" role="button" (click)="update()">Update</button>
                             </ng-template>
