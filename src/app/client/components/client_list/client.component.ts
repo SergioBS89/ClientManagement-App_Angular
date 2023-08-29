@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Client } from '../class/client';
-import { ClientService } from '../service/client.service';
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
+import { ClientService } from '../../service/client.service';
+import { Client } from '../../class/client';
 
 @Component({
   selector: 'app-client',
@@ -18,26 +18,29 @@ export class ClientComponent implements OnInit {
 
   clientList: Client[];
   client: Client = new Client();
-  paginator:any
+  paginator: any
 
   ngOnInit(): void {
     /**
      * Pagination 
      */
-
     this.activeRoute.paramMap.subscribe(
       params => {
         let page: number = +params.get('page')
         !page ? 0 : page;
         this.clientService
           .getClients(page)
-          .subscribe((response) =>{
+          .subscribe((response) => {
             this.clientList = response.content as Client[];
             this.paginator = response
-           } );          
+          });
       })
   }
 
+  /**
+   * This funtion delete a client in DB
+   * @param client 
+   */
   delete(client: Client) {
     Swal.fire({
       title: 'Are you sure?',
@@ -49,8 +52,9 @@ export class ClientComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.service.delete(client.id).subscribe((response) => {
-          this.clientList = this.clientList.filter((cli) => cli !== client);
+        this.service.delete(client.id).subscribe(() => {
+          //Chacking if is client in list clients 
+          this.clientList = this.clientList.filter((clientRemoved) => clientRemoved !== client);
           Swal.fire(
             'Deleted!',
             `Client ${client.name} has been deleted`,

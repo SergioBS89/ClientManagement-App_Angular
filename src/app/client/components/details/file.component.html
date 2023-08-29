@@ -1,0 +1,36 @@
+<div class=" details card  text-white col-xl-6 col-md-9 col-sm-12" style="margin-top: 100px; padding: 0;">
+    <div class="card-header bg-black">
+        <h4>{{title}}</h4>
+    </div>
+    <div class="container">
+        <div class="row card-body bg-dark">
+            <div class="col-7 " style="padding: 0;">
+                <ul *ngIf="client" class="list-group mb-3">
+                    <li class="list-group-item"><span class="properties">Name:</span> {{client.name}}</li>
+                    <li class="list-group-item"><span class="properties">Lastname:</span> {{client.lastname}}</li>
+                    <li class="list-group-item"><span class="properties">Email:</span> {{client.email}}</li>
+                    <li class="list-group-item"><span class="properties">Create at:</span> {{client.createAt |
+                        date:"fullDate"}}</li>
+                </ul>
+                <div class="input-group mb-3">
+                    <input (change)="selectFile($event)" type="file" class="form-control" id="inputGroupFile04"
+                        aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                    <button [disabled]="!fileSelected" (click)="uploadFile()" class="btn btn-outline-secondary"
+                        type="button"><span style="color: white;">Update</span></button>
+                </div>
+
+                <div *ngIf="progressBar > 0" class="progress">
+                    <div class="progress-bar progress-bar-striped" role="progressbar"
+                        [ngStyle]="{width: progressBar + '%'}" attr.aria-valuenow="{{progressBar}}" aria-valuemin="0"
+                        aria-valuemax="100">
+                        {{progressBar}}%</div>
+                </div>
+            </div>
+            <div class="col-5" style="padding-left: 20px; padding-right: 0;">
+                <!-- ?. asking if is not null, load the picture -->
+                <img *ngIf="client?.picture" src="http://localhost:8080/api/files/img/{{client.picture}}"
+                    class="img-thumbnail rounded" alt="">
+            </div>
+        </div>
+    </div>
+</div>

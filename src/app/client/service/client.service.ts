@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Client } from '../class/client';
 import { Observable, catchError, map, throwError } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
@@ -55,6 +55,7 @@ export class ClientService {
   }
 
   getClientById(id): Observable<Client> {
+    console.log(`${this.endpoint}/${id}`)
     return this.http.get<Client>(`${this.endpoint}/${id}`).pipe(
       catchError(e => {
         this.router.navigate(['/clients'])
@@ -86,5 +87,19 @@ export class ClientService {
         return throwError(() => e);
       })
     )
+  }
+
+  uploadFile(file : File, id) : Observable<HttpEvent<{}>>{
+    let formData = new FormData()
+    //Those two values should be equals in back end (form data values)
+    formData.append("file", file)
+    formData.append("id", id)
+
+    //Managing the progress % uploading files
+    const req = new HttpRequest('POST', `${this.endpoint}/files`, formData,{
+      reportProgress: true
+    })
+
+    return this.http.request(req)
   }
 }

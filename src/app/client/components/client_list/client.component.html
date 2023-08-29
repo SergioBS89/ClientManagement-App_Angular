@@ -12,7 +12,7 @@
      </div>
       <table class="table table-bordered table-striped" *ngIf="clientList?.length > 0">
         <thead>
-          <th>Id</th>
+          <th>User Details</th>
           <th>Name</th>
           <th>Last name</th>
           <th>Email</th>
@@ -22,7 +22,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of clientList">
-            <td>{{item.id}}</td>
+            <td><button class="btn btn-dark" [routerLink]="['/clients/file', item.id]">See Details</button></td>
             <td>{{item.name}}</td>
             <td>{{item.lastname}}</td>
             <td>{{item.email}}</td>
