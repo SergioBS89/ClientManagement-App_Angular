@@ -1,4 +1,3 @@
-
 <!-- DISPLAY VALIDATION NOTIFICATIONS -->
 <div class="container ">
     <ul class="alert alert-danger" *ngIf="listErrors?.length > 0">
@@ -32,6 +31,15 @@
                         <label class="col-form-label col-sm-2">Email:</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" [(ngModel)]="client.email" name="email">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2">Region:</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" [compareWith]="compareRegion" [(ngModel)]="client.region" name="region">
+                                <option *ngFor="let reg of regionList" [ngValue]="reg">{{reg.name}}</option>
+                            </select>
                         </div>
                     </div>
                     <br>

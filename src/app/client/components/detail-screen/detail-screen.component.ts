@@ -1,35 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Client } from '../../class/client';
-import { ClientService } from '../../service/client.service';
-import { ActivatedRoute } from '@angular/router';
-import Swal from 'sweetalert2';
 import { HttpEventType } from '@angular/common/http';
+import Swal from 'sweetalert2';
+import { ClientService } from '../../service/client.service';
+import { DetailService } from './service/detail.service';
 
 @Component({
-  selector: 'app-file',
-  templateUrl: './file.component.html',
-  styleUrls: ['./file.component.css']
+  selector: 'app-detail-screen',
+  templateUrl: './detail-screen.component.html',
+  styleUrls: ['./detail-screen.component.css']
 })
-export class FileComponent {
+export class DetailScreenComponent {
 
+  @Input()
   client: Client = new Client()
+  @Input()
+  display: boolean
+
   title = "Client Details"
   fileSelected: File
-  progressBar : number = 0
+  progressBar: number = 0
 
-  constructor(private clientService: ClientService, private activedRoute: ActivatedRoute) { }
+  constructor(private clientService: ClientService, private detailService: DetailService) { }
 
   ngOnInit(): void {
-    this.activedRoute.paramMap.subscribe(params => {
-      let id: number = +params.get('id')!
-      if (id) {
-        this.clientService.getClientById(id).subscribe((response) => {
-          this.client = response;
-          console.log(response)
-        });
-      }
-    })
+    this.client = this.client
   }
+
 
   /**
    * 
@@ -48,6 +45,7 @@ export class FileComponent {
       this.fileSelected = null
     }
     console.log(this.fileSelected)
+    console.log(this.client)
   }
 
   /**
@@ -64,19 +62,27 @@ export class FileComponent {
     } else {
       this.clientService.uploadFile(this.fileSelected, this.client.id)
         .subscribe(event => {
-          if(event.type === HttpEventType.UploadProgress){
-            this.progressBar = Math.round((event.loaded/event.total) * 100)
-          } else if(event.type === HttpEventType.Response){
-            let response : any = event.body
-            response.client = this.client as Client
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progressBar = Math.round((event.loaded / event.total) * 100)
+          } else if (event.type === HttpEventType.Response) {
+            let response: any = event.body
+            response.client = this.client as Client      
             Swal.fire(
               'Uploading file',
               response.message,
               'success').then(function(){
-                location.reload();
-                })
-          } 
-          })
+                window.location.reload()
+              })
+          }
+        }
+        )
     }
   }
+
+  closeModal() {
+    this.progressBar = 0
+  }
 }
+
+
+

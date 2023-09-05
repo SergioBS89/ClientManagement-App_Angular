@@ -1,39 +1,51 @@
+<app-detail-screen [client]="clientSelected"></app-detail-screen>
 <div class="container container-fluid client-container">
   <div class="card border-info mb-3">
     <div class="card-header text-info">
       <h3>Clients</h3>
+
+      <div class="card-body text-dark">
+        <div *ngIf="clientList?.length == 0" class="alert alert-info">
+          There is no clients to display
+        </div>
+        <table class="table table-bordered table-striped" *ngIf="clientList?.length > 0">
+          <thead>
+
+            <th>Picture</th>
+            <th>Name</th>
+            <th>Last name</th>
+            <th>Email</th>
+            <th>Region</th>
+            <th>Created at</th>
+            <th>User Details</th>
+            <th>Update</th>
+            <th>Delete</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let client of clientList">
+              <!-- Picture upload -->
+              <td><img *ngIf="client?.picture" src="http://localhost:8080/api/files/img/{{client.picture}}"
+                  class="img-thumbnail rounded" alt="" style="width:80px; height: 70px;">
+              <!-- Picture by defect -->
+              <img *ngIf="!client?.picture" src="http://localhost:8080/api/files/img/imgbydefect"
+                  class="" alt="" style="width:70px; height: 70px;" ></td>
+              <td>{{client.name}}</td>
+              <td>{{client.lastname}}</td>
+              <td>{{client.email}}</td>
+              <td>{{client.region.name}}</td>
+              <td>{{client.createAt}}</td>
+              <td><button class="btn btn-dark" (click)="openModal(client)" data-bs-toggle="modal"
+                  data-bs-target="#exampleModal">See Details</button></td>
+              <td><button class="btn btn-warning" [routerLink]="['/clients/create', client.id]">Update</button></td>
+              <td><button class="btn btn-danger" (click)="delete(client)">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Important to ask if paginator has been inject (asinchronous comunication) -->
+        <app-pagination *ngIf="paginator" [paginator]="paginator"></app-pagination>
+      </div>
       <div class="my-2 text-left">
         <button class="btn btn-rounded btn-primary" [routerLink]="['/clients/create']">Create</button>
       </div>
-    <div class="card-body text-dark">
-      <h5 class="card-title">List of clients</h5>
-      <div  *ngIf="clientList?.length == 0" class="alert alert-info">
-        There is no clients
-     </div>
-      <table class="table table-bordered table-striped" *ngIf="clientList?.length > 0">
-        <thead>
-          <th>User Details</th>
-          <th>Name</th>
-          <th>Last name</th>
-          <th>Email</th>
-          <th>Created at</th>
-          <th>Update</th>
-          <th>Delete</th>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of clientList">
-            <td><button class="btn btn-dark" [routerLink]="['/clients/file', item.id]">See Details</button></td>
-            <td>{{item.name}}</td>
-            <td>{{item.lastname}}</td>
-            <td>{{item.email}}</td>
-            <td>{{item.createAt}}</td>
-            <td><button class="btn btn-warning" [routerLink]="['/clients/create', item.id]">Update</button></td>
-            <td><button class="btn btn-danger" (click)="delete(item)">Delete</button></td>
-          </tr>
-        </tbody>
-      </table>
-      <!-- Important to ask if paginator has been inject (asinchronous comunication) -->
-      <app-pagination *ngIf="paginator" [paginator] = "paginator"></app-pagination>
     </div>
-  </div>
   </div>

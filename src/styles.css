@@ -6,4 +6,5 @@ a{
 /* To fix the problem with many clients and footer position */
 html{
     position: relative;
+    
 }

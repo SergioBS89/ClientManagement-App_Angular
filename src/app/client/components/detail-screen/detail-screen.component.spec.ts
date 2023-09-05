@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FileComponent } from './file.component';
+import { DetailScreenComponent } from './detail-screen.component';
 
-describe('FileComponent', () => {
-  let component: FileComponent;
-  let fixture: ComponentFixture<FileComponent>;
+describe('DetailScreenComponent', () => {
+  let component: DetailScreenComponent;
+  let fixture: ComponentFixture<DetailScreenComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FileComponent ]
+      declarations: [ DetailScreenComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FileComponent);
+    fixture = TestBed.createComponent(DetailScreenComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

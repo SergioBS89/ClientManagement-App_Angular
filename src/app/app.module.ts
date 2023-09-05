@@ -7,11 +7,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterLinkActive } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from './client/components/pagination/pagination.component';
-import { FileComponent } from './client/components/details/file.component';
 import { ClientComponent } from './client/components/client_list/client.component';
 import { FormComponent } from './client/components/form/form.component';
 import { HeaderComponent } from './client/components/header/header.component';
 import { FooterComponent } from './client/components/footer/footer.component';
+import { DetailScreenComponent } from './client/components/detail-screen/detail-screen.component';
 
 const routes: Routes = [
   // {path: '', redirectTo: '/', pathMatch: 'full'} THIS IS EXAMPLE TO REDIRECT
@@ -19,8 +19,7 @@ const routes: Routes = [
   { path: 'clients', component: ClientComponent},
   { path: 'clients/pages/:page', component: ClientComponent },
   { path: 'clients/create', component: FormComponent },
-  { path: 'clients/create/:id', component: FormComponent },
-  { path: 'clients/file/:id', component: FileComponent}
+  { path: 'clients/create/:id', component: FormComponent }
 ];
 
 @NgModule({
@@ -30,8 +29,8 @@ const routes: Routes = [
     FooterComponent,
     FormComponent,
     PaginationComponent,
-    FileComponent,
-    ClientComponent
+    ClientComponent,
+    DetailScreenComponent
   ],
   imports: [
     BrowserModule,

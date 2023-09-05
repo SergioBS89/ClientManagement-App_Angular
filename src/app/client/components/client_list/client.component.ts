@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { ClientService } from '../../service/client.service';
@@ -10,15 +10,18 @@ import { Client } from '../../class/client';
   styleUrls: ['./client.component.css'],
 })
 export class ClientComponent implements OnInit {
+
   constructor(
     private clientService: ClientService,
     private service: ClientService,
     private activeRoute: ActivatedRoute
   ) { }
 
+  // client: Client = new Client();
   clientList: Client[];
-  client: Client = new Client();
   paginator: any
+  clientSelected: Client
+  modalActive: boolean = false
 
   ngOnInit(): void {
     /**
@@ -35,8 +38,10 @@ export class ClientComponent implements OnInit {
             this.paginator = response
           });
       })
-  }
 
+      
+      }
+  
   /**
    * This funtion delete a client in DB
    * @param client 
@@ -64,4 +69,9 @@ export class ClientComponent implements OnInit {
       }
     });
   }
+
+  openModal(client : Client){
+   this.clientSelected = client
+  }
+
 }
