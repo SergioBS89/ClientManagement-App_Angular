@@ -15,18 +15,18 @@ export class FormComponent {
     private service: ClientService,
     private router: Router,
     private activeRoute: ActivatedRoute
-  ) {}
+  ) { }
 
   client: Client = new Client();
   formTitle: String = 'Creating client';
-  listErrors : string[] = []
+  listErrors: string[] = []
   regionList: Region[] = [];
 
   ngOnInit() {
     this.loadClient();
 
-    this.service.getRegions().subscribe(res =>{
-      
+    this.service.getRegions().subscribe(res => {
+
       this.regionList = res as Region[]
       console.log(this.regionList)
     })
@@ -42,10 +42,10 @@ export class FormComponent {
         'success'
       );
     },
-    err => {
-      this.listErrors = err.error.errors as string[]
-    }
-    
+      err => {
+        this.listErrors = err.error.errors as string[]
+      }
+
     );
   }
 
@@ -69,12 +69,18 @@ export class FormComponent {
         'success'
       );
     },
-    err => {
-      this.listErrors = err.error.errors as string[]
-    });
+      err => {
+        this.listErrors = err.error.errors as string[]
+      });
   }
 
-  compareRegion(obj1 : Region, obj2 : Region) : boolean{
+  /**
+   * This function compare the current client selected in region select option 
+   */
+  compareRegion(obj1: Region, obj2: Region): boolean {
+    if (obj1 === undefined && obj2 === undefined) {
+      return true
+    }
     return obj1 == null || obj2 == null ? false : obj1.id === obj2.id
   }
 }
